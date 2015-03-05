@@ -37,8 +37,15 @@ inline bool operator!=(const Literal& lhs, const Literal& rhs){return !(lhs == r
 inline bool operator< (const Literal& lhs, const Literal& rhs){
   if(lhs.name < rhs.name){
     return true;
+  }else if(lhs.name == rhs.name){
+    if(!lhs.negated){
+      return true;
+    }else{
+      return false;
+    }
+  }else{
+    return false;
   }
-  return false;
 }
 
 #endif
