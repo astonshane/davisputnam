@@ -11,12 +11,7 @@ public:
     this->negated = negated;
   }
 
-  void printLiteral() const {
-    if(negated){
-      cout << "~";
-    }
-    cout << name;
-  }
+  void printLiteral() const;
 
   char name;
   bool negated;
@@ -35,15 +30,15 @@ inline bool operator==(const Literal& lhs, const Literal& rhs){
 inline bool operator!=(const Literal& lhs, const Literal& rhs){return !(lhs == rhs);}
 
 inline bool operator< (const Literal& lhs, const Literal& rhs){
-  if(lhs.name < rhs.name){
+  if(lhs.name < rhs.name){ //A < B
     return true;
-  }else if(lhs.name == rhs.name){
-    if(!lhs.negated){
+  }else if(lhs.name == rhs.name){ //A, ~A
+    if(!lhs.negated && rhs.negated){ //A < ~A == TRUE
       return true;
-    }else{
+    }else{ //~A, ~A || ~A, A
       return false;
     }
-  }else{
+  }else{ //B < A
     return false;
   }
 }

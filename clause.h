@@ -11,34 +11,17 @@ class Clause{
 public:
   Clause(){}
 
-  void printClause() const{
-    cout << "{";
-    set<Literal>::iterator itr = literals.begin();
+  void printClause() const;
 
-    for(; itr != literals.end(); ){
-      itr->printLiteral();
-      itr++;
-      if(itr != literals.end()){
-        cout << ", ";
-      }
-    }
-    cout << "}" << endl;
-  }
+  void addLiteral(Literal L){ literals.insert(L); }
 
-  void addLiteral(Literal L){
-    literals.insert(L);
-  }
-
-
-  int size(){
-    return literals.size();
-  }
+  int size(){ return literals.size(); }
 
   set<Literal> literals;
 
 };
 
-bool operator==(const Clause& lhs, const Clause& rhs){
+inline bool operator==(const Clause& lhs, const Clause& rhs){
   if(lhs.literals.size() != rhs.literals.size()){
     return false;
   }
@@ -53,11 +36,11 @@ bool operator==(const Clause& lhs, const Clause& rhs){
 }
 
 
-bool operator!=(const Clause& lhs, const Clause& rhs){
+inline bool operator!=(const Clause& lhs, const Clause& rhs){
   return !(lhs == rhs);
 }
 
-bool operator< (const Clause& lhs, const Clause& rhs){
+inline bool operator< (const Clause& lhs, const Clause& rhs){
   if(lhs.literals.size() < rhs.literals.size()){
     return true;
   }
