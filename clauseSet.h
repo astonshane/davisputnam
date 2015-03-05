@@ -27,6 +27,8 @@ public:
   //for now, just returns the first that it finds, should be optimized later
   char nextLiteral();
 
+  ClauseSet reduce(Literal L1, Literal L2);
+
   //returns the size of the clause set
   int size(){ return clause_set.size();}
 

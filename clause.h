@@ -17,6 +17,10 @@ public:
 
   int size(){ return literals.size(); }
 
+  bool contains(Literal L);
+
+  Clause reduce(Literal L);
+
   set<Literal> literals;
 
 };

@@ -52,13 +52,24 @@ bool satisfiable(ClauseSet S){
   Literal L1(L, false); //A
   Literal L2(L, true);  //~A
 
+  ClauseSet S1 = S.reduce(L1, L2);
+  ClauseSet S2 = S.reduce(L2, L1);
+
+  cout << "branch 1:" << endl;
+  S1.printSet();
+
+  cout << "branch 2:" << endl;
+  S2.printSet();
+
+  return satisfiable(S1) || satisfiable(S2);
+
+
 
   return false;
 
 }
 
-
-int main(){
+void test1(){
   Literal a('A', false);
   Literal nota('A', true);
   Literal n('N', false);
@@ -99,6 +110,7 @@ int main(){
 
   S.insert(C4);
   //S.insert(C5);
+  cout << "initial set: " << endl;
   S.printSet();
 
   bool sat = satisfiable(S);
@@ -107,6 +119,48 @@ int main(){
   }else{
     cout << "S was not satisfiable!" << endl;
   }
+}
 
+void test2(){
+  Literal nota('A', true);
+  Literal b('B', false);
+  Literal notb('B', true);
+
+  Clause C1;
+  C1.addLiteral(nota);
+  C1.addLiteral(b);
+  //C1.printClause();
+
+  Clause C2;
+  C2.addLiteral(nota);
+  //C2.printClause();
+
+  Clause C3;
+  C3.addLiteral(b);
+  //C3.printClause();
+
+
+  ClauseSet S;
+  S.insert(C1);
+
+  S.insert(C2);
+
+  S.insert(C3);
+
+  cout << "initial set: " << endl;
+  S.printSet();
+
+  bool sat = satisfiable(S);
+  if(sat){
+    cout << "S was satisfiable!" << endl;
+  }else{
+    cout << "S was not satisfiable!" << endl;
+  }
+}
+
+int main(){
+
+  test1(); //not satisfiable, therefore valid argument
+  test2(); //satisfiable, therefore invalid argument
 
 }

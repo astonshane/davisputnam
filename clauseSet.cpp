@@ -15,15 +15,6 @@ void ClauseSet::insert(Clause C){
   sort(clause_set.begin(), clause_set.end());
 }
 
-//outputs the current contents of the clause set
-void ClauseSet::printSet(){
-  cout << "=== begin set ===" << endl;
-  for(int i=0; i<clause_set.size();i++){
-    clause_set[i].printClause();
-  }
-  cout << "=== end set ===" << endl << endl;
-}
-
 //returns a set of all of the literals currently contained in the clause set
 set<char> ClauseSet::literalsSet(){
   set<char> lits;
@@ -48,4 +39,41 @@ char ClauseSet::nextLiteral(){
     }
   }
   return '!';
+}
+
+ClauseSet ClauseSet::reduce(Literal L1, Literal L2){
+  ClauseSet S;
+
+  //for each clause C in clause_set:
+  for(int i=0; i < size(); i++){
+    Clause C = clause_set[i];
+
+    //if L1 in C:
+      //continue -- this statement has been made "true"
+    if(C.contains(L1)){
+      continue;
+    }
+    //else if L2 in C:
+      //remove L2 from C
+    Clause C1 = C.reduce(L2);
+    //            ^^^^^^^^^^
+    //            returns a copy of C with Literal L2 removed, if it was there
+    //                at all
+
+    //add C1 C to S
+    S.insert(C1);
+  }
+
+  return S;
+}
+
+
+
+//outputs the current contents of the clause set
+void ClauseSet::printSet(){
+  cout << "=== begin set ===" << endl;
+  for(int i=0; i<clause_set.size();i++){
+    clause_set[i].printClause();
+  }
+  cout << "=== end set ===" << endl << endl;
 }
