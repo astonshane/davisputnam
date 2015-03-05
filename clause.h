@@ -30,6 +30,10 @@ public:
   }
 
 
+  int size(){
+    return literals.size();
+  }
+
   set<Literal> literals;
 
 };

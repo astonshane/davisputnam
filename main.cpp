@@ -24,6 +24,39 @@ bool satisfiable(S){
 }
 */
 
+bool satisfiable(ClauseSet S){
+  //if S == {}
+  //  return true
+  if(S.size() == 0){
+    return true;
+  }
+
+  //if {} in S:
+  //  return false: //closed branch
+  vector<Clause> cs = S.clauseSet();
+  for(int i=0; i<cs.size(); i++){
+    Clause c = cs[i];
+    if(c.size() == 0){
+      return false;
+    }
+  }
+
+  //if {L} in S:
+  //  return satisfiable(S_L)
+
+  //else
+  //  select L in Literals(S)
+  //  satisfiable(S_L) || satisfiable(S_L`)
+  char L = S.nextLiteral();
+  cout << L << endl;
+  Literal L1(L, false); //A
+  Literal L2(L, true);  //~A
+
+
+  return false;
+
+}
+
 
 int main(){
   Literal a('A', false);
@@ -51,23 +84,29 @@ int main(){
   C4.addLiteral(notq);
   //C4.printClause();
 
+  Clause C5; //empty set
+
   //cout << endl << endl;
 
   ClauseSet S;
   S.insert(C1);
-  S.printSet();
 
   S.insert(C2);
-  S.printSet();
 
   S.insert(C3);
-  S.printSet();
 
   S.insert(C3);
-  S.printSet();
 
   S.insert(C4);
+  //S.insert(C5);
   S.printSet();
+
+  bool sat = satisfiable(S);
+  if(sat){
+    cout << "S was satisfiable!" << endl;
+  }else{
+    cout << "S was not satisfiable!" << endl;
+  }
 
 
 }
