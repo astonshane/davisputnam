@@ -1,0 +1,29 @@
+<queryresult success="true" error="false" numpods="1" datatypes="" timedout="" timedoutpods="" timing="1.125" parsetiming="0.661" parsetimedout="false" recalculate="" id="MSPa5681ff0ff1bid88ha8d0000225b0h8a52cfhiff" host="http://www5a.wolframalpha.com" server="24" related="http://www5a.wolframalpha.com/api/v2/relatedQueries.jsp?id=MSPa5691ff0ff1bid88ha8d0000297ii7h5i0ef5e37&s=24" version="2.6">
+  <pod title="Input" scanner="Identity" id="Input" position="100" error="false" numsubpods="2">
+    <subpod title="">
+      <plaintext>BooleanConvert[(P&&Q)||(F=>G), CNF]</plaintext>
+      <img src="http://www5a.wolframalpha.com/Calculate/MSP/MSP5701ff0ff1bid88ha8d000047h2i690a534g2dg?MSPStoreType=image/gif&s=24" alt="BooleanConvert[(P&&Q)||(F=>G), CNF]" title="BooleanConvert[(P&&Q)||(F=>G), CNF]" width="276" height="18"/>
+    </subpod>
+    <subpod title="">
+      <plaintext>((NOT F) OR G OR P) AND ((NOT F) OR G OR Q)</plaintext>
+      <img src="http://www5a.wolframalpha.com/Calculate/MSP/MSP5711ff0ff1bid88ha8d000062e382fc1475feg7?MSPStoreType=image/gif&s=24" alt="((NOT F) OR G OR P) AND ((NOT F) OR G OR Q)" title="((NOT F) OR G OR P) AND ((NOT F) OR G OR Q)" width="318" height="18"/>
+    </subpod>
+    <infos count="3">
+      <info text="e_1∧e_2∧… is the logical AND function">
+        <img src="http://www5a.wolframalpha.com/Calculate/MSP/MSP5721ff0ff1bid88ha8d000020d9g61223b1855h?MSPStoreType=image/gif&s=24" alt="e_1∧e_2∧… is the logical AND function" title="e_1∧e_2∧… is the logical AND function" width="260" height="20"/>
+        <link url="http://reference.wolfram.com/mathematica/ref/And.html" text="Documentation" title="Mathematica"/>
+        <link url="http://mathworld.wolfram.com/AND.html" text="Definition" title="MathWorld"/>
+      </info>
+      <info text="pq represents the logical implication p⇒q">
+        <img src="http://www5a.wolframalpha.com/Calculate/MSP/MSP5731ff0ff1bid88ha8d0000256c2gdi217b24a2?MSPStoreType=image/gif&s=24" alt="pq represents the logical implication p⇒q" title="pq represents the logical implication p⇒q" width="283" height="18"/>
+        <link url="http://reference.wolfram.com/mathematica/ref/Implies.html" text="Documentation" title="Mathematica"/>
+        <link url="http://mathworld.wolfram.com/Implies.html" text="Definition" title="MathWorld"/>
+      </info>
+      <info text="e_1∨e_2∨… is the logical OR function">
+        <img src="http://www5a.wolframalpha.com/Calculate/MSP/MSP5741ff0ff1bid88ha8d000054f3bi48f96a54c6?MSPStoreType=image/gif&s=24" alt="e_1∨e_2∨… is the logical OR function" title="e_1∨e_2∨… is the logical OR function" width="250" height="20"/>
+        <link url="http://reference.wolfram.com/mathematica/ref/Or.html" text="Documentation" title="Mathematica"/>
+        <link url="http://mathworld.wolfram.com/OR.html" text="Definition" title="MathWorld"/>
+      </info>
+    </infos>
+  </pod>
+</queryresult>
