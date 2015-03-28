@@ -1,0 +1,3 @@
+A implies (N or Q)
+not(N or not A)
+A implies Q
