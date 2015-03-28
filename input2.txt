@@ -1,0 +1,3 @@
+A implies B
+NOT A
+NOT B

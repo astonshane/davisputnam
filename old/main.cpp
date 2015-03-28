@@ -161,6 +161,6 @@ void test2(){
 int main(){
 
   test1(); //not satisfiable, therefore valid argument
-  test2(); //satisfiable, therefore invalid argument
+  //test2(); //satisfiable, therefore invalid argument
 
 }

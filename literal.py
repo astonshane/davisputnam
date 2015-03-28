@@ -11,3 +11,9 @@ class Literal:
 
     def __repr__(self):
         return str(self)
+
+    def __eq__(self, other):
+        return self.name == other.name and self.negated ==  other.negated
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
