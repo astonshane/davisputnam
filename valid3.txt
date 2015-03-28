@@ -1,0 +1,5 @@
+B and (H or Z)
+not Z implies K
+(B iff Z) implies (not Z)
+not K
+M and N

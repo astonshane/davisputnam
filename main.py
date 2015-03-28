@@ -4,8 +4,11 @@ from sets import Set
 from literal import Literal
 
 def parsedInput(given):
-    url = "http://api.wolframalpha.com/v1/query?input=CNF+%s&appid=2Y4TEV-W2AETK4T5K" %  given
-    #print url
+        #http://api.wolframalpha.com/v1/query?input=BooleanConvert[(B+xnor+Z)+implies+not+Z,+%22CNF%22]&appid=2Y4TEV-W2AETK4T5K
+
+    url = "http://api.wolframalpha.com/v1/query?input=BooleanConvert[" + given +",%22CNF%22]&appid=2Y4TEV-W2AETK4T5K"
+    #url = "http://api.wolframalpha.com/v1/query?input=CNF+%s&appid=2Y4TEV-W2AETK4T5K" %  given
+    print url
     req = urllib2.Request(url)
     response = urllib2.urlopen(req)
     the_page = response.read()
@@ -171,15 +174,17 @@ if __name__ == "__main__":
     for line in infile:
         line = line.strip("\n")
         line = line.replace(" ", "+")
+        line = line.replace("iff", "xnor")
+        line = line.replace("IFF", "xnor")
         lines.append(line)
 
     S = [] #clause Set
 
     lines[-1] = "NOT(%s)" % lines[-1]
     for line in lines:
-        #print line
+        print line
         parsed = parsedInput(line)
-        #print parsed
+        print parsed
         newClauses = createClauses(parsed)
         #print newClauses
         for c in newClauses:

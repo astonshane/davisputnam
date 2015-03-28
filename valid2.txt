@@ -1,0 +1,4 @@
+A implies (B and C)
+C IFF B
+not C
+not A
