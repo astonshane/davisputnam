@@ -1,0 +1,3 @@
+not(K iff S)
+S implies not(R or K)
+R or not S

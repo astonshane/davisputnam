@@ -1,0 +1,4 @@
+M implies (K implies B)
+not K implies not M
+L and M
+B

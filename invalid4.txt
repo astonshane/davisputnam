@@ -1,0 +1,4 @@
+G impleis H
+R iff G
+not H or G
+not(R iff H)
