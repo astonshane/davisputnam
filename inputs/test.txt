@@ -1,0 +1,5 @@
+K iff (L or M)
+L implies M
+M implies K
+K or L
+K and not K

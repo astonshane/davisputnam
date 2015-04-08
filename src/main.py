@@ -4,11 +4,9 @@ from sets import Set
 from literal import Literal
 
 def parsedInput(given):
-        #http://api.wolframalpha.com/v1/query?input=BooleanConvert[(B+xnor+Z)+implies+not+Z,+%22CNF%22]&appid=2Y4TEV-W2AETK4T5K
-
+    #http://api.wolframalpha.com/v1/query?input=BooleanConvert[(B+xnor+Z)+implies+not+Z,+%22CNF%22]&appid=2Y4TEV-W2AETK4T5K
     url = "http://api.wolframalpha.com/v1/query?input=BooleanConvert[" + given +",%22CNF%22]&appid=2Y4TEV-W2AETK4T5K"
-    #url = "http://api.wolframalpha.com/v1/query?input=CNF+%s&appid=2Y4TEV-W2AETK4T5K" %  given
-    #print url
+
     req = urllib2.Request(url)
     response = urllib2.urlopen(req)
     the_page = response.read()
@@ -82,17 +80,18 @@ def literalInClause(l1, C):
     return False
 
 def reduce(L1, L2, S):
-    #print "reducing on ",
-    #print  L1,
-    #print S
     newS = []
     for c in S:
-        #if L1 in c:
-        #   this clause is true now
-        #       don't add c it to newS
-        #else if L2 in c:
-        #   remove L2 from c
-        #   add new c to newS
+        '''
+        if L1 in c:
+           this clause is true now
+           don't add c it to newS
+        else if L2 (ie ~L1) in c:
+           remove L2 from c
+           add new c to newS
+        else: (neither L1 nor L2 in c)
+           add it to newS
+        '''
 
         if literalInClause(L1, c):
             continue
@@ -106,8 +105,6 @@ def reduce(L1, L2, S):
         else:
             newS.append(c)
 
-    #print "reduced to ",
-    #print newS
     return newS
 
 
@@ -128,25 +125,42 @@ def Satisfiable(s):
         return Satisfiable(S_L) | Satisfiable(S_L')
 '''
 
-def satisfiable(S):
+def satisfiable(S, i=0):
     #sort the clause Set by the size of each clause
     S.sort(lambda x,y: cmp(len(x), len(y)))
-    #print S
+    print " "*i, "satisfiable for Clause Set: ", S
+
+
     #if S = []: return True
     if len(S) == 0:
-        #print "True"
+        print " "*i, "    S == []; returning True"
         return True
 
     #if [] in S: return False
     #if [] in S:
     #    return False
+    firstElement = next(iter(S))
+    if firstElement == []:
+        print " "*i, "    Found [] in S. Returning False"
+        return False
 
-    for s in S:
-        if s == []:
-            return False
+
+    #unit rule:
+    #   if {L} in S:
+    #    return Satisfiable(S_L)
+    if len(firstElement) == 1:
+        print " "*i, "    Exploiting Unit Rule with", firstElement[0]
+
+        firstLiteral =  firstElement[0]
+        notFirstLiteral = Literal(firstLiteral.name, not firstLiteral.negated)
+        S1 = reduce(firstLiteral, notFirstLiteral, S)
+
+        return satisfiable(S1, i+4)
+
 
     nextL = nextLiteral(S)
     #print nextL
+    print " "*i, "    Branching on", nextL
     L1 = Literal(nextL, False)
     L2 = Literal(nextL, True)
 
@@ -158,7 +172,7 @@ def satisfiable(S):
     #print "  ",
     #print S2
 
-    return satisfiable(S1) or satisfiable(S2)
+    return satisfiable(S1, i+4) or satisfiable(S2, i+4)
 
     #return True
 
