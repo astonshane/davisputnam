@@ -75,6 +75,9 @@ def constructClauseSet(file):
     for line in lines:
         print "converting %s..." % line.replace("+", " ")
         parsed = parsedInput(line)
+        if parsed == "True":
+            print "    Tautology detected: not adding to S"
+            continue
         print "    CNF: %s" % parsed
         newClauses = createClauses(parsed)
         print "    Clauses:", newClauses

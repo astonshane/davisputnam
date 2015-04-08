@@ -73,16 +73,25 @@ def satisfiable(S, i=0):
         print " "*i +  "    Found [] in S. Returning False"
         return False
 
-    #tautology elemination:
-    #   remove clauses of the type [A, B, ~A]
+    #tautological elemination
+    #   done by wolfram automatically during conversion to CNF
 
     #subsumption elemination:
     #   [A,B] subsumes [A,B,C]
-    #   Hence, with S any clause set, and S the clause set
+    #   Hence, with S any clause set, and S1 the clause set
     #        S with all subsumed clauses removed: S is
-    #        satisfiable if and only if S is satisfiable.
+    #        satisfiable if and only if S1 is satisfiable.
+    for clause1 in S:
+        newS = Set()
+
 
     #pure literal elemination:
+    #   a literal L is pure with regard to a clause set S if and only if
+    #      L is contained in at least one clause in S, but ~L is not
+    #   a clause is pure with regard to a clause set S, iff it contains
+    #       a pure literal
+    #   obviously, with S, any clause set, and with S1 the clause set S
+    #       with all pure clauses removed: S is satisfiable iff S' is satisfiable
 
     #unit rule:
     #   if {L} in S:
