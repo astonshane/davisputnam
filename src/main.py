@@ -8,7 +8,7 @@ def parsedInput(given):
 
     url = "http://api.wolframalpha.com/v1/query?input=BooleanConvert[" + given +",%22CNF%22]&appid=2Y4TEV-W2AETK4T5K"
     #url = "http://api.wolframalpha.com/v1/query?input=CNF+%s&appid=2Y4TEV-W2AETK4T5K" %  given
-    print url
+    #print url
     req = urllib2.Request(url)
     response = urllib2.urlopen(req)
     the_page = response.read()
@@ -180,11 +180,13 @@ if __name__ == "__main__":
 
     S = [] #clause Set
 
+    print "negating the conclusion... %s" % lines[-1],
     lines[-1] = "NOT(%s)" % lines[-1]
+    print " to %s" % lines[-1]
     for line in lines:
-        print line
+        print "converting %s to clauses..." % line.replace("+", " ")
         parsed = parsedInput(line)
-        print parsed
+        #print parsed
         newClauses = createClauses(parsed)
         #print newClauses
         for c in newClauses:
