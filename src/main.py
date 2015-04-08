@@ -81,8 +81,14 @@ def satisfiable(S, i=0):
     #   Hence, with S any clause set, and S1 the clause set
     #        S with all subsumed clauses removed: S is
     #        satisfiable if and only if S1 is satisfiable.
-    for clause1 in S:
+    '''for clause1 in S:
         newS = Set()
+        for clause2 in S:
+            if clauseEq(clause1, clause2):
+                continue
+
+            if not subsume(clause1, clause2):
+                newS.append'''
 
 
     #pure literal elemination:
