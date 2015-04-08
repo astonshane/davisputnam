@@ -180,22 +180,23 @@ if __name__ == "__main__":
 
     S = [] #clause Set
 
-    print "negating the conclusion... %s" % lines[-1],
+    print "negating the conclusion... [%s" % lines[-1].replace("+", " "),
     lines[-1] = "NOT(%s)" % lines[-1]
-    print " to %s" % lines[-1]
+    print " to %s]" % lines[-1].replace("+", " ")
+
     for line in lines:
-        print "converting %s to clauses..." % line.replace("+", " ")
+        print "converting %s..." % line.replace("+", " ")
         parsed = parsedInput(line)
-        #print parsed
+        print "    CNF: %s" % parsed
         newClauses = createClauses(parsed)
-        #print newClauses
+        print "    Clauses:", newClauses
         for c in newClauses:
             if not clauseIn(c, S):
                 S.append(c)
 
         #print ""
 
-    print S
+    print "\nStarting Clause Set S: ", S
     sat =  satisfiable(S)
     if sat:
         print "S was satisfiable! Therefore given argument is invalid!"
