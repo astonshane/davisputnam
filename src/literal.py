@@ -13,7 +13,10 @@ class Literal:
         return str(self)
 
     def __eq__(self, other):
-        return self.name == other.name and self.negated ==  other.negated
+        if other == None:
+            return False
+        else:
+            return self.name == other.name and self.negated ==  other.negated
 
     def __ne__(self, other):
         return not self.__eq__(other)

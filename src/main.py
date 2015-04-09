@@ -57,7 +57,7 @@ def satisfiable(S, i=0):
     #sort the clause Set by the size of each clause
     S.sort(lambda x,y: cmp(len(x), len(y)))
     print ""
-    print " "*i +  "satisfiable for Clause Set: ", S
+    print " "*i +  "Satisfiable() for Clause Set: ", S
 
 
     #if S = []: return True
@@ -92,7 +92,7 @@ def satisfiable(S, i=0):
                 newS.append(clause2)
             else:
                 print " " * (i+4) + "%s subsumes %s" % (str(clause1), str(clause2))
-                
+
         if len(newS) != len(S):
             return satisfiable(newS, i+4)
 
@@ -104,6 +104,14 @@ def satisfiable(S, i=0):
     #       a pure literal
     #   obviously, with S, any clause set, and with S1 the clause set S
     #       with all pure clauses removed: S is satisfiable iff S' is satisfiable
+    pl = findPureLiteral(S)
+    if pl != None:
+        print " "*i + "    %s found to be a pure literal" % str(pl)
+        newS = []
+        for clause in S:
+            if not literalInClause(pl, clause):
+                newS.append(clause)
+        return satisfiable(newS, i + 4)
 
     #unit rule:
     #   if {L} in S:

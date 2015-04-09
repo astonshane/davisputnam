@@ -17,6 +17,12 @@ def clauseIn(c1, S):
             return True
     return False
 
+def literalInClauseSet(lit, S):
+    for clause in S:
+        if literalInClause(lit, clause):
+            return True
+    return False
+
 def nextLiteral(S):
     clause = S[0][0]
     return clause.name
@@ -29,9 +35,16 @@ def literalInClause(l1, C):
 
 #subsumption:
 #   [A,B] subsumes [A,B,C]
-
 def subsume(clause1, clause2):
     for lit in clause1:
         if not literalInClause(lit, clause2):
             return False
     return True
+
+def findPureLiteral(S):
+    for clause in S:
+        for lit in clause:
+            notlit = Literal(lit.name, not lit.negated)
+            if not literalInClauseSet(notlit, S):
+                return lit
+    return None
