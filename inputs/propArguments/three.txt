@@ -1,0 +1,4 @@
+not(A iff B)
+not A
+not B
+C and not C

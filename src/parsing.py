@@ -17,6 +17,7 @@ def parsedInput(given):
     parsed = ""
     found = False
     for line in the_page:
+        #print line
         line = line.lstrip()
         line = line.split(">")
         #print line

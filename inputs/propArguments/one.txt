@@ -1,0 +1,4 @@
+A implies (B and C)
+C iff B
+not C
+not A

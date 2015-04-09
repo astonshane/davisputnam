@@ -1,0 +1,4 @@
+K imples H
+H implies L
+L imples M
+K imples M

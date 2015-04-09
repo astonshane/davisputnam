@@ -1,0 +1,5 @@
+not A or R
+not(N and not C)
+R implies C
+C implies not N
+A or C
