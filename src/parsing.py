@@ -4,7 +4,7 @@ import threading
 from sets import Set
 from literal import Literal
 from helpers import *
-from counter import Counter
+from cscreator import csCreator
 
 def parsedInput(given):
     #http://api.wolframalpha.com/v1/query?input=BooleanConvert[(B+xnor+Z)+implies+not+Z,+%22CNF%22]&appid=2Y4TEV-W2AETK4T5K
@@ -81,7 +81,7 @@ def constructClauseSet(file):
         lines.append(line)
 
     #S = [] #clause Set
-    counter = Counter()
+    cs_creator = csCreator()
 
     print "negating the conclusion..."
     print "    %s" % lines[-1].replace("+", " ")
@@ -89,7 +89,7 @@ def constructClauseSet(file):
     print "    %s" % lines[-1].replace("+", " ")
 
     for line in lines:
-        t = threading.Thread(target=worker, args=(counter, line, ))
+        t = threading.Thread(target=worker, args=(cs_creator, line, ))
         t.start()
 
     main_thread = threading.currentThread()
@@ -97,7 +97,7 @@ def constructClauseSet(file):
         if t is not main_thread:
             t.join()
 
-    S = counter.value
+    S = cs_creator.value
     #print S
 
     return S

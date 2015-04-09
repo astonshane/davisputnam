@@ -1,7 +1,7 @@
 import threading
 from helpers import *
 
-class Counter(object):
+class csCreator(object):
     def __init__(self):
         self.lock = threading.Lock()
         self.value = []
