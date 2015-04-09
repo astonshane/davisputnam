@@ -1,2 +1,4 @@
-A or not A
-K and not K
+A or B
+A or B or C
+A or B or C or D or E
+D and F

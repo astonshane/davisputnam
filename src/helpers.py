@@ -26,3 +26,12 @@ def literalInClause(l1, C):
         if l == l1:
             return True
     return False
+
+#subsumption:
+#   [A,B] subsumes [A,B,C]
+
+def subsume(clause1, clause2):
+    for lit in clause1:
+        if not literalInClause(lit, clause2):
+            return False
+    return True
