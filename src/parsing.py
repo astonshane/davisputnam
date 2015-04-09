@@ -1,8 +1,10 @@
 import urllib2
 import sys
+import threading
 from sets import Set
 from literal import Literal
 from helpers import *
+from counter import Counter
 
 def parsedInput(given):
     #http://api.wolframalpha.com/v1/query?input=BooleanConvert[(B+xnor+Z)+implies+not+Z,+%22CNF%22]&appid=2Y4TEV-W2AETK4T5K
@@ -55,6 +57,19 @@ def createClauses(line):
     return clauses
 
 
+def worker(S, line):
+    print "converting %s..." % line.replace("+", " ")
+    parsed = parsedInput(line)
+    if parsed == "True":
+        print "    Tautology detected: not adding %s to S" % line.replace("+", " ")
+        return
+    #print "    CNF: %s" % parsed
+    newClauses = createClauses(parsed)
+    #print "    Clauses:", newClauses
+    for c in newClauses:
+        S.append(c)
+    return
+
 def constructClauseSet(file):
     infile = open(file)
     lines = []
@@ -65,7 +80,8 @@ def constructClauseSet(file):
         line = line.replace("IFF", "xnor")
         lines.append(line)
 
-    S = [] #clause Set
+    #S = [] #clause Set
+    counter = Counter()
 
     print "negating the conclusion..."
     print "    %s" % lines[-1].replace("+", " ")
@@ -73,16 +89,15 @@ def constructClauseSet(file):
     print "    %s" % lines[-1].replace("+", " ")
 
     for line in lines:
-        print "converting %s..." % line.replace("+", " ")
-        parsed = parsedInput(line)
-        if parsed == "True":
-            print "    Tautology detected: not adding to S"
-            continue
-        print "    CNF: %s" % parsed
-        newClauses = createClauses(parsed)
-        print "    Clauses:", newClauses
-        for c in newClauses:
-            if not clauseIn(c, S):
-                S.append(c)
+        t = threading.Thread(target=worker, args=(counter, line, ))
+        t.start()
+
+    main_thread = threading.currentThread()
+    for t in threading.enumerate():
+        if t is not main_thread:
+            t.join()
+
+    S = counter.value
+    #print S
 
     return S
