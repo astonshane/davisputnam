@@ -7,6 +7,9 @@ from literal import Literal
 from helpers import *
 from parsing import *
 
+#reduction function that transforms S
+#   by removing any clauses that contain the literal L1
+#   and removing L2(== ~L1) from any clauses that contain it
 def reduce(L1, L2, S):
     newS = []
     for c in S:
@@ -52,7 +55,8 @@ def Satisfiable(s):
     select L in lit(s)
         return Satisfiable(S_L) | Satisfiable(S_L')
 '''
-
+#main recursive function for determining whether or not a given clauseset is satisfiable
+#   using the algorithm described above, with additional improvements as seen fit
 def satisfiable(S, i=0, subsumption=True, pureLiteral=True, unitLiteral=True):
     #sort the clause Set by the size of each clause
     S.sort(lambda x,y: cmp(len(x), len(y)))
@@ -75,6 +79,7 @@ def satisfiable(S, i=0, subsumption=True, pureLiteral=True, unitLiteral=True):
 
     #tautological elemination
     #   done by wolfram automatically during conversion to CNF
+    #   see worker()
 
     #subsumption elemination:
     #   [A,B] subsumes [A,B,C]
@@ -119,6 +124,8 @@ def satisfiable(S, i=0, subsumption=True, pureLiteral=True, unitLiteral=True):
     #   if {L} in S:
     #    return Satisfiable(S_L)
     if unitLiteral:
+        #becuase we sort by size, the first element will always be the shortest
+        #       (ie. if there is anything of size 1, it will be found in the first spot)
         if len(firstElement) == 1:
             print " "*i +  "    Exploiting Unit Rule with", firstElement[0]
 
@@ -128,9 +135,9 @@ def satisfiable(S, i=0, subsumption=True, pureLiteral=True, unitLiteral=True):
 
             return satisfiable(S1, i + 4, subsumption, pureLiteral, unitLiteral)
 
-
+    #find the next Literal that we will split on
     nextL = nextLiteral(S)
-    #print nextL
+
     print " "*i +  "    Branching on", nextL
     L1 = Literal(nextL, False)
     L2 = Literal(nextL, True)
@@ -138,15 +145,7 @@ def satisfiable(S, i=0, subsumption=True, pureLiteral=True, unitLiteral=True):
     S1 = reduce(L1, L2, S)
     S2 = reduce(L2, L1, S)
 
-    #print "  ",
-    #print S1
-    #print "  ",
-    #print S2
-
     return satisfiable(S1, i + 4, subsumption, pureLiteral, unitLiteral) or satisfiable(S2, i + 4, subsumption, pureLiteral, unitLiteral)
-
-    #return True
-
 
 if __name__ == "__main__":
     argv = sys.argv
@@ -159,7 +158,7 @@ if __name__ == "__main__":
     print "\nStarting Clause Set S: ", S
 
     #         subsumption, pureLiteral, unitLiteral
-    sat =  satisfiable(S, 0, False, False, False)
+    sat =  satisfiable(S, 0, True, True, True)
     if sat:
         print "S was satisfiable! Therefore given argument is invalid!"
     else:
