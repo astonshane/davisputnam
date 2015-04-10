@@ -53,7 +53,7 @@ def Satisfiable(s):
         return Satisfiable(S_L) | Satisfiable(S_L')
 '''
 
-def satisfiable(S, i=0):
+def satisfiable(S, i=0, subsumption=True, pureLiteral=True, unitLiteral=True):
     #sort the clause Set by the size of each clause
     S.sort(lambda x,y: cmp(len(x), len(y)))
     print ""
@@ -81,20 +81,21 @@ def satisfiable(S, i=0):
     #   Hence, with S any clause set, and S1 the clause set
     #        S with all subsumed clauses removed: S is
     #        satisfiable if and only if S1 is satisfiable.
-    for clause1 in S:
-        newS = []
-        for clause2 in S:
-            if clauseEq(clause1, clause2):
-                newS.append(clause1)
-                continue
+    if subsumption:
+        for clause1 in S:
+            newS = []
+            for clause2 in S:
+                if clauseEq(clause1, clause2):
+                    newS.append(clause1)
+                    continue
 
-            if not subsume(clause1, clause2):
-                newS.append(clause2)
-            else:
-                print " " * (i+4) + "%s subsumes %s" % (str(clause1), str(clause2))
+                if not subsume(clause1, clause2):
+                    newS.append(clause2)
+                else:
+                    print " " * (i+4) + "%s subsumes %s" % (str(clause1), str(clause2))
 
-        if len(newS) != len(S):
-            return satisfiable(newS, i+4)
+            if len(newS) != len(S):
+                return satisfiable(newS, i+4, subsumption, pureLiteral, unitLiteral)
 
 
     #pure literal elemination:
@@ -104,26 +105,28 @@ def satisfiable(S, i=0):
     #       a pure literal
     #   obviously, with S, any clause set, and with S1 the clause set S
     #       with all pure clauses removed: S is satisfiable iff S' is satisfiable
-    pl = findPureLiteral(S)
-    if pl != None:
-        print " "*i + "    %s found to be a pure literal" % str(pl)
-        newS = []
-        for clause in S:
-            if not literalInClause(pl, clause):
-                newS.append(clause)
-        return satisfiable(newS, i + 4)
+    if pureLiteral:
+        pl = findPureLiteral(S)
+        if pl != None:
+            print " "*i + "    %s found to be a pure literal" % str(pl)
+            newS = []
+            for clause in S:
+                if not literalInClause(pl, clause):
+                    newS.append(clause)
+            return satisfiable(newS, i + 4, subsumption, pureLiteral, unitLiteral)
 
     #unit rule:
     #   if {L} in S:
     #    return Satisfiable(S_L)
-    if len(firstElement) == 1:
-        print " "*i +  "    Exploiting Unit Rule with", firstElement[0]
+    if unitLiteral:
+        if len(firstElement) == 1:
+            print " "*i +  "    Exploiting Unit Rule with", firstElement[0]
 
-        firstLiteral =  firstElement[0]
-        notFirstLiteral = Literal(firstLiteral.name, not firstLiteral.negated)
-        S1 = reduce(firstLiteral, notFirstLiteral, S)
+            firstLiteral =  firstElement[0]
+            notFirstLiteral = Literal(firstLiteral.name, not firstLiteral.negated)
+            S1 = reduce(firstLiteral, notFirstLiteral, S)
 
-        return satisfiable(S1, i + 4)
+            return satisfiable(S1, i + 4, subsumption, pureLiteral, unitLiteral)
 
 
     nextL = nextLiteral(S)
@@ -140,7 +143,7 @@ def satisfiable(S, i=0):
     #print "  ",
     #print S2
 
-    return satisfiable(S1, i + 4) or satisfiable(S2, i + 4)
+    return satisfiable(S1, i + 4, subsumption, pureLiteral, unitLiteral) or satisfiable(S2, i + 4, subsumption, pureLiteral, unitLiteral)
 
     #return True
 
@@ -154,7 +157,9 @@ if __name__ == "__main__":
     S = constructClauseSet(argv[1])
 
     print "\nStarting Clause Set S: ", S
-    sat =  satisfiable(S)
+
+    #         subsumption, pureLiteral, unitLiteral
+    sat =  satisfiable(S, 0, False, False, False)
     if sat:
         print "S was satisfiable! Therefore given argument is invalid!"
     else:
