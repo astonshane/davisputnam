@@ -9,7 +9,6 @@ from cscreator import csCreator
 def parsedInput(given):
     #http://api.wolframalpha.com/v1/query?input=BooleanConvert[(B+xnor+Z)+implies+not+Z,+%22CNF%22]&appid=2Y4TEV-W2AETK4T5K
     url = "http://api.wolframalpha.com/v1/query?input=BooleanConvert[" + given +",%22CNF%22]&appid=2Y4TEV-W2AETK4T5K"
-
     req = urllib2.Request(url)
     response = urllib2.urlopen(req)
     the_page = response.read()
