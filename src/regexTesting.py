@@ -1,10 +1,10 @@
 import re
 
-line = "A XNOR B"
+line = "A k"
 
-m = re.match('(\w) XNOR (\w)', line, re.I)
+m = re.match('(\w)$', line, re.I)
 
 if m:
-    print m.group(1), m.group(2)
+    print m.group(1)
 else:
     print "nope"

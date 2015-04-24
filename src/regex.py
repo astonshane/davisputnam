@@ -4,7 +4,7 @@ from cscreator import *
 
 def implies(line):
     #######################################################
-    m = re.match('NOT (\w+) implies NOT (\w+)', line, re.I)
+    m = re.match('NOT (\w+) implies NOT (\w+)$', line, re.I)
     if m:
         clause = []
 
@@ -14,7 +14,7 @@ def implies(line):
         return clause
 
     #######################################################
-    m = re.match('NOT (\w+) implies (\w+)', line, re.I)
+    m = re.match('NOT (\w+) implies (\w+)$', line, re.I)
     if m:
         clause = []
 
@@ -24,7 +24,7 @@ def implies(line):
         return clause
 
     #######################################################
-    m = re.match('(\w+) implies NOT (\w+)', line, re.I)
+    m = re.match('(\w+) implies NOT (\w+)$', line, re.I)
     if m:
         clause = []
 
@@ -34,7 +34,7 @@ def implies(line):
         return clause
 
     #######################################################
-    m = re.match('(\w+) implies (\w+)', line, re.I)
+    m = re.match('(\w+) implies (\w+)$', line, re.I)
     if m:
         clause = []
 
@@ -46,7 +46,7 @@ def implies(line):
 def iff(line):
     clauses = []
     #######################################################
-    m = re.match('NOT (\w+) xnor NOT (\w+)', line, re.I)
+    m = re.match('NOT (\w+) xnor NOT (\w+)$', line, re.I)
     if m:
 
         l = Literal(m.group(1), False)
@@ -70,7 +70,7 @@ def iff(line):
         return clauses
 
     #######################################################
-    m = re.match('NOT (\w+) xnor (\w+)', line, re.I)
+    m = re.match('NOT (\w+) xnor (\w+)$', line, re.I)
     if m:
 
         l = Literal(m.group(1), False)
@@ -93,7 +93,7 @@ def iff(line):
 
         return clauses
     #######################################################
-    m = re.match('(\w+) xnor NOT (\w+)', line, re.I)
+    m = re.match('(\w+) xnor NOT (\w+)$', line, re.I)
     if m:
 
         l = Literal(m.group(1), False)
@@ -116,7 +116,7 @@ def iff(line):
 
         return clauses
     #######################################################
-    m = re.match('(\w+) xnor (\w+)', line, re.I)
+    m = re.match('(\w+) xnor (\w+)$', line, re.I)
     if m:
 
         l = Literal(m.group(1), False)
@@ -138,10 +138,28 @@ def iff(line):
         clauses.append(clause2)
 
         return clauses
+
+def lit(line):
+    m = re.match('(\w)$', line, re.I)
+    if m:
+        l = Literal(m.group(1), False)
+        return [l]
+
+    m = re.match('NOT (\w)$', line, re.I)
+    if m:
+        l = Literal(m.group(1), True)
+        return [l]
+
 
 
 def tryRegex(line, cs_creator):
     line = line.replace("+", " ")
+
+    m = lit(line)
+    if m:
+        print "found lit"
+        cs_creator.append(m)
+
     m = implies(line)
     if m:
         cs_creator.append(m)
@@ -149,7 +167,7 @@ def tryRegex(line, cs_creator):
 
     m = iff(line)
     if m:
-        print "found iff"
+        #print "found iff"
         for n in m:
             cs_creator.append(n)
         return True
