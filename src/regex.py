@@ -193,6 +193,46 @@ def conjunction(line):
 
         return clauses
 
+def disjunction(line):
+    m = re.match('(\w) or (\w)$', line, re.I)
+    if m:
+        l = Literal(m.group(1), False)
+        k = Literal(m.group(2), False)
+
+        clause = []
+        clause.append(l)
+        clause.append(k)
+        return clause
+
+    m = re.match('not (\w) or (\w)$', line, re.I)
+    if m:
+        l = Literal(m.group(1), True)
+        k = Literal(m.group(2), False)
+
+        clause = []
+        clause.append(l)
+        clause.append(k)
+        return clause
+
+    m = re.match('(\w) or not (\w)$', line, re.I)
+    if m:
+        l = Literal(m.group(1), False)
+        k = Literal(m.group(2), True)
+
+        clause = []
+        clause.append(l)
+        clause.append(k)
+        return clause
+
+    m = re.match('not (\w) or not (\w)$', line, re.I)
+    if m:
+        l = Literal(m.group(1), True)
+        k = Literal(m.group(2), True)
+
+        clause = []
+        clause.append(l)
+        clause.append(k)
+        return clause
 
 
 def tryRegex(line, cs_creator):
@@ -217,6 +257,11 @@ def tryRegex(line, cs_creator):
     if m:
         for n in m:
             cs_creator.append(n)
+        return True
+
+    m = disjunction(line)
+    if m:
+        cs_creator.append(m)
         return True
 
     return False
