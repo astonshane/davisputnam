@@ -150,6 +150,49 @@ def lit(line):
         l = Literal(m.group(1), True)
         return [l]
 
+def conjunction(line):
+    clauses = []
+
+    m = re.match('(\w) and (\w)$', line, re.I)
+    if m:
+        l = Literal(m.group(1), False)
+        k = Literal(m.group(2), False)
+
+        clauses.append([l])
+        clauses.append([k])
+
+        return clauses
+
+    m = re.match('not (\w) and (\w)$', line, re.I)
+    if m:
+        l = Literal(m.group(1), True)
+        k = Literal(m.group(2), False)
+
+        clauses.append([l])
+        clauses.append([k])
+
+        return clauses
+
+    m = re.match('(\w) and not (\w)$', line, re.I)
+    if m:
+        l = Literal(m.group(1), False)
+        k = Literal(m.group(2), True)
+
+        clauses.append([l])
+        clauses.append([k])
+
+        return clauses
+
+    m = re.match('not (\w) and not (\w)$', line, re.I)
+    if m:
+        l = Literal(m.group(1), True)
+        k = Literal(m.group(2), True)
+
+        clauses.append([l])
+        clauses.append([k])
+
+        return clauses
+
 
 
 def tryRegex(line, cs_creator):
@@ -157,7 +200,6 @@ def tryRegex(line, cs_creator):
 
     m = lit(line)
     if m:
-        print "found lit"
         cs_creator.append(m)
 
     m = implies(line)
@@ -167,7 +209,12 @@ def tryRegex(line, cs_creator):
 
     m = iff(line)
     if m:
-        #print "found iff"
+        for n in m:
+            cs_creator.append(n)
+        return True
+
+    m = conjunction(line)
+    if m:
         for n in m:
             cs_creator.append(n)
         return True

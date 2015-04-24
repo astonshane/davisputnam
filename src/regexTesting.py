@@ -1,10 +1,10 @@
 import re
 
-line = "A k"
+line = "A and B"
 
-m = re.match('(\w)$', line, re.I)
+m = re.match('(\w) AND (\w)$', line, re.I)
 
 if m:
-    print m.group(1)
+    print m.group(1), m.group(2)
 else:
     print "nope"
