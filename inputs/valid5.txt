@@ -1,0 +1,3 @@
+A implies B
+B implies C
+A implies C
