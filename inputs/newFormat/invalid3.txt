@@ -1,0 +1,5 @@
+K <-> (L v M)
+L -> M
+M -> K
+K v L
+K -> L
