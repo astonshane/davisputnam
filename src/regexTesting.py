@@ -1,8 +1,8 @@
 import re
 
-line = "NOT A implies NOT Q;"
+line = "A XNOR B"
 
-m = re.match('NOT (\w) implies NOT (\w)', line, re.I)
+m = re.match('(\w) XNOR (\w)', line, re.I)
 
 if m:
     print m.group(1), m.group(2)

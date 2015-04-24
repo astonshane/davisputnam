@@ -5,6 +5,7 @@ from sets import Set
 from literal import Literal
 from helpers import *
 from cscreator import csCreator
+from regex import *
 
 #performs the http request to wolframalpha to convert the user's input to CNF
 def parsedInput(given):
@@ -75,7 +76,6 @@ def createClauses(line):
 
 
 def worker(S, line):
-    print "converting %s..." % line.replace("+", " ")
 
     #makes the wolframalpha request and returns the CNF
     parsed = parsedInput(line)
@@ -122,8 +122,10 @@ def constructClauseSet(file):
     #   each thread will create a wolframalpha request to convert it to CNF
     #       and the resulting clauses to the cs_creator object created above
     for line in lines:
-        t = threading.Thread(target=worker, args=(cs_creator, line, ))
-        t.start()
+        print "converting %s..." % line.replace("+", " ")
+        if not tryRegex(line, cs_creator):
+            t = threading.Thread(target=worker, args=(cs_creator, line, ))
+            t.start()
 
     main_thread = threading.currentThread()
     for t in threading.enumerate():
