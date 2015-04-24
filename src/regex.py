@@ -1,6 +1,7 @@
 import re
 from literal import *
 from cscreator import *
+from sanatize import *
 
 #try to match the line with the implication pattern
 def implies(line):
@@ -284,6 +285,7 @@ def disjunction(line):
 #   CNF for and is relatively simple to parse in order to avoid the
 #   costly wolfram API calls that take forever
 def tryRegex(line, cs_creator):
+    line = sanatize(line)
     line = line.replace("+", " ")
 
     #try to match the line against any literals (e.g. A,  ~A)

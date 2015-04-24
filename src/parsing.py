@@ -6,12 +6,13 @@ from literal import Literal
 from helpers import *
 from cscreator import csCreator
 from regex import *
+from sanatize import *
 
 #performs the http request to wolframalpha to convert the user's input to CNF
 def parsedInput(given):
     #sample wolfram request:
     #http://api.wolframalpha.com/v1/query?input=BooleanConvert[(B+xnor+Z)+implies+not+Z,+%22CNF%22]&appid=2Y4TEV-W2AETK4T5K
-
+    given = sanatize(given)
     #construct the url
     url = "http://api.wolframalpha.com/v1/query?input=BooleanConvert[" + given +",%22CNF%22]&appid=2Y4TEV-W2AETK4T5K"
 
@@ -95,22 +96,6 @@ def worker(S, line):
         S.append(c)
     return
 
-#read in each line of the file (replacing special characters/words)
-#   puts the line in a form that can more easily be parsed / given to wolfram
-def sanatize(line):
-    line = line.strip("\n")
-    line = line.replace(" ", "+")
-    line = line.replace("iff", "xnor")
-    line = line.replace("IFF", "xnor")
-
-    line = line.replace("~", "NOT+")
-    line = line.replace("^", "and")
-    line = line.replace("v", "or")
-    line = line.replace("<->", "xnor")
-    line = line.replace("->", "implies")
-
-
-    return line
 
 #reads in the argument from the provided file and returns a clauseSet representing it
 def constructClauseSet(file):
@@ -120,8 +105,7 @@ def constructClauseSet(file):
     lines = []
     #read in each line of the file (replacing special characters/words)
     for line in infile:
-        line = sanatize(line)
-        print line
+        line = prettify(line)
         lines.append(line)
 
     #clause set creator: (used in the multithreading bellow)
