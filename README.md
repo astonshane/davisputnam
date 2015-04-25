@@ -1,8 +1,9 @@
-# davisputnam
-Automated theorem prover based on the Davis-Putnam algorithm
+# Davis Putnam
+Automated Theorem Prover based on the Davis-Putnam algorithm
 
-Created as a final project for:
+  - Shane Aston
+  - Dr. Bram van Heuveln
+  - PHIL-4420 Computability and Logic, RPI, Spring 2015
 
-PHIL-4420 Computability and Logic, RPI, Spring 2015
-
-Dr. Bram van Heuveln
+# License
+MIT
