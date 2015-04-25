@@ -114,7 +114,7 @@ def constructClauseSet(file):
     #negate the conclusion (which we define to be the last line in the input)
     print "negating the conclusion..."
     print "    %s" % lines[-1].replace("+", " ")
-    lines[-1] = "NOT(%s)" % lines[-1]
+    lines[-1] = "~(%s)" % lines[-1]
     print "    %s" % lines[-1].replace("+", " ")
 
     #create a new thread for each line of the input
