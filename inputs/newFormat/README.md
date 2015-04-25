@@ -13,7 +13,7 @@
     - A <-> B
 
 #Sample Input file:
-- NOTE: Last Input input line coresponds to the conclusion
+- NOTE: Last Input input line corresponds to the conclusion
 
  ```sh
 A -> (N v Q)
