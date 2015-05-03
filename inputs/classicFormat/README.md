@@ -16,7 +16,7 @@
 - NOTE: Last Input input line corresponds to the conclusion
 
  ```sh
-A implies (N or Q)
-not(N or not A)
-A implies Q
+A IMPLIES (N OR Q)
+NOT(N OR NOT A)
+A IMPLIES Q
 ```

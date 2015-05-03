@@ -321,9 +321,3 @@ def tryRegex(line, cs_creator):
 
     #we didn't find any matches, return false
     return False
-
-'''
-m = tryRegex(line = "A implies not Q")
-if m:
-    print "banana"
-'''

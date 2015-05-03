@@ -2,3 +2,4 @@
 Two types of input file available:
 - "Classic" - i.e. natural language
 - "New" - i.e. logic symbols
+- Any combination of the two

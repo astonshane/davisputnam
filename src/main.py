@@ -9,7 +9,7 @@ from parsing import *
 
 #reduction function that transforms S
 #   by removing any clauses that contain the literal L1
-#   and removing L2(== ~L1) from any clauses that contain it
+#   and removing L2 (i.e. ~L1) from any clauses that contain it
 def reduce(L1, L2, S):
     newS = []
     for c in S:
@@ -17,7 +17,7 @@ def reduce(L1, L2, S):
         if L1 in c:
            this clause is true now
            don't add c it to newS
-        else if L2 (ie ~L1) in c:
+       else if L2 (i.e. ~L1) in c:
            remove L2 from c
            add new c to newS
         else: (neither L1 nor L2 in c)
@@ -57,7 +57,7 @@ def Satisfiable(s):
 '''
 #main recursive function for determining whether or not a given clauseset is satisfiable
 #   using the algorithm described above, with additional improvements as seen fit
-def satisfiable(S, i=0, subsumption=True, pureLiteral=True, unitLiteral=True):
+def satisfiable(S, i, subsumption, pureLiteral, unitLiteral):
     #sort the clause Set by the size of each clause
     S.sort(lambda x,y: cmp(len(x), len(y)))
     print ""
@@ -77,11 +77,11 @@ def satisfiable(S, i=0, subsumption=True, pureLiteral=True, unitLiteral=True):
         print " "*i +  "    Found [] in S. Returning False"
         return False
 
-    #tautological elemination
+    #tautological elimination
     #   done by wolfram automatically during conversion to CNF
-    #   see worker()
+    #   see worker() in parsing.py
 
-    #subsumption elemination:
+    #subsumption elimination:
     #   [A,B] subsumes [A,B,C]
     #   Hence, with S any clause set, and S1 the clause set
     #        S with all subsumed clauses removed: S is
@@ -103,7 +103,7 @@ def satisfiable(S, i=0, subsumption=True, pureLiteral=True, unitLiteral=True):
                 return satisfiable(newS, i+4, subsumption, pureLiteral, unitLiteral)
 
 
-    #pure literal elemination:
+    #pure literal elimination:
     #   a literal L is pure with regard to a clause set S if and only if
     #      L is contained in at least one clause in S, but ~L is not
     #   a clause is pure with regard to a clause set S, iff it contains
@@ -149,16 +149,52 @@ def satisfiable(S, i=0, subsumption=True, pureLiteral=True, unitLiteral=True):
 
 if __name__ == "__main__":
     argv = sys.argv
-    if len(argv) != 2:
-        print "invalid useage"
-        exit(1)
+
+    #add-on flags (set them initially to false)
+    subsumption = False
+    pureLiteral = False
+    unitLiteral = False
+
+    for i in range(2,len(argv)):
+        #use ALL of the add-ons: subsumption, pureLiteral, and unitLiteral
+        if argv[i] == "-a":
+            subsumption = True
+            pureLiteral = True
+            unitLiteral = True
+
+        #use subsumption
+        elif argv[i] == "-s":
+            subsumption = True
+
+        #use pureLiteral
+        elif argv[i] == "-p":
+            pureLiteral = True
+
+        #use unitLiteral
+        elif argv[i] == "-u":
+            unitLiteral = True
+
+        #invalid useage:
+        else:
+            print "Useage: python main.py <input file> [-a] [-s] [-p] [-u]\n"
+            print "-a        use all add-ons"
+            print "-s        subsumption elimination"
+            print "-p        pure literal elimination"
+            print "-u        unit literal elimination"
+            exit(1)
+
+    print "Starting Satisfiable() with the following add-ons:"
+    print "    Subsumption: ", subsumption
+    print "    Pure Literal:", pureLiteral
+    print "    Unit Literal:", unitLiteral
 
     S = constructClauseSet(argv[1])
 
     print "\nStarting Clause Set S: ", S
 
-    #         subsumption, pureLiteral, unitLiteral
-    sat =  satisfiable(S, 0, True, True, True)
+    #       setting any of the below to false will "turn off", that add-on
+    #      sasisfiable(ClauseSet, startingIndent, subsumption, pureLiteral, unitLiteral)
+    sat =  satisfiable(S, 0, subsumption, pureLiteral, unitLiteral)
     if sat:
         print "S was satisfiable! Therefore given argument is invalid!"
     else:
